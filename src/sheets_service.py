@@ -1,6 +1,6 @@
 from googleapiclient.discovery import build
 from config import SPREADSHEET_ID, RANGE_NAME
-# Note: We don't need a separate auth function because we reuse the credentials 
+
 # from the Gmail login flow in main.py.
 
 def append_to_sheet(creds, data):
@@ -10,7 +10,7 @@ def append_to_sheet(creds, data):
     try:
         service = build('sheets', 'v4', credentials=creds)
         
-        # Prepare the row
+
         values = [[
             data['From'],
             data['Subject'],
