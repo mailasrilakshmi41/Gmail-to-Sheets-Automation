@@ -1,0 +1,11 @@
+# Google API Credentials
+credentials/credentials.json
+token.json
+
+# Python environment
+venv/
+__pycache__/
+*.pyc
+
+# Local state file
+processed_ids.txt
