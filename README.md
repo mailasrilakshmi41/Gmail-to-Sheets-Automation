@@ -13,47 +13,47 @@ This tool automates the process of fetching unread emails from a Gmail inbox and
    git clone [https://github.com/](https://github.com/)mailasrilakshmi41/gmail-to-sheets.git
    cd gmail-to-sheets
 
-2. Install Dependencies:
-pip install -r requirements.txt
+2. **Install Dependencies:**
+    pip install -r requirements.txt
 
-3. Configure Credentials:
+3. **Configure Credentials:**
 
-Place your Google Cloud credentials.json file inside the credentials/ folder.
+    Place your Google Cloud credentials.json file inside the credentials/ folder.
 
-Note: This file is excluded from the repository for security.
+    Note: This file is excluded from the repository for security.
 
-4. Configure Settings:
+4. **Configure Settings:**
 
-Open config.py and update the SPREADSHEET_ID with your target Google Sheet ID.
+     config.py and update the SPREADSHEET_ID with your target Google Sheet ID.
 
-5. Run the Application:
-python src/main.py
+5. **Run the Application:**
+    python src/main.py
 
-Technical Design Decisions
-OAuth 2.0 Authentication
-I implemented the OAuth 2.0 Desktop Client flow rather than a Service Account. This ensures the script runs with the user's explicit permissions. The gmail_service.py handles the token exchange and saves token.json locally to maintain the session.
+## Technical Design Decisions
+    OAuth 2.0 Authentication
+    I implemented the OAuth 2.0 Desktop Client flow rather than a Service Account. This ensures the script runs with the user's explicit permissions. The gmail_service.py handles the token exchange and saves token.json locally to maintain the session.
 
-Duplicate Prevention & State Persistence
-To strictly ensure no duplicate rows are added (as per the "State Persistence" requirement):
+    Duplicate Prevention & State Persistence
+    To strictly ensure no duplicate rows are added (as per the "State Persistence" requirement):
 
-Storage: I use a lightweight local file named processed_ids.txt.
+    Storage: I use a lightweight local file named processed_ids.txt.
 
-Logic:
+    Logic:
 
-Every email has a unique Message ID.
+    Every email has a unique Message ID.
 
-Before processing, the script checks if the ID exists in the text file.
+    Before processing, the script checks if the ID exists in the text file.
 
-If found: The email is skipped.
+    If found: The email is skipped.
 
-If not found: The email is parsed, added to Sheets, and the ID is appended to the file.
+    If not found: The email is parsed, added to Sheets, and the ID is appended to the file.
 
-Reasoning: This approach avoids the complexity of a full database while ensuring the script is state-aware across multiple runs.
+    Reasoning: This approach avoids the complexity of a full database while ensuring the script is state-aware across multiple runs.
 
-Challenges Faced
-Parsing MIME Types: Gmail returns emails in a nested JSON structure. A major challenge was extracting clean text/plain content while ignoring HTML tags. I solved this by writing a recursive parser in email_parser.py and using regex to clean the output.
+## Challenges Faced
+    Parsing MIME Types: Gmail returns emails in a nested JSON structure. A major challenge was extracting clean text/plain content while ignoring HTML tags. I solved this by writing a recursive parser in email_parser.py and using regex to clean the output.
 
-Limitations
-The script currently ignores file attachments.
+## Limitations
+    The script currently ignores file attachments.
 
-Rate limits are handled by Google's standard API quotas.
+    Rate limits are handled by Google's standard API quotas.
